@@ -56,15 +56,4 @@ public class CalculatorAppTest {
         when(calculator.calculate(anyString())).thenThrow(mock(CalculatorException.class));
         assertTrue(app.run("foo").contains("Het ging mis: "));
     }
-
-    @Test
-    public void testMain() throws Exception {
-        ByteArrayOutputStream outContent = new ByteArrayOutputStream();
-        System.setOut(new PrintStream(outContent));
-
-        CalculatorApp.main(new String[]{" 3 + 3 / 2 - 5"});
-
-        assertEquals("Het resultaat van 3 + 3 / 2 - 5 is: -0,5\n", outContent.toString());
-        System.setOut(null);
-    }
 }
