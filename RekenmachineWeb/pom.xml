@@ -24,6 +24,11 @@
 			<artifactId>Rekenmachine</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+                <dependency>
+			<groupId>nl.ordina.academy</groupId>
+			<artifactId>calculator</artifactId>
+			<version>1.0-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<finalName>RekenmachineWeb</finalName>
