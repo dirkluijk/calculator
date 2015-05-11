@@ -1,0 +1,8 @@
+/bin/
+/target/
+
+# Eclipse Core
+.project
+
+/.settings/
+.classpath
