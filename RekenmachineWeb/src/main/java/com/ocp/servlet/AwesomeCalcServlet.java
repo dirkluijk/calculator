@@ -9,35 +9,37 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.ocp.rekenmachine.Calculator;
 import com.ocp.rekenmachine.ICalculator;
+import javax.servlet.annotation.WebServlet;
 
 @SuppressWarnings("serial")
+@WebServlet("/awesome-calculator")
 public class AwesomeCalcServlet extends HttpServlet {
 
-	@Override
+    @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String input = request.getParameter("calcinput");
-		String result = doCalculation(input);
-		
+        String input = request.getParameter("calcinput");
+        String result = doCalculation(input);
+
         request.setAttribute("message", "<div class=\"alert alert-success\" role=\"alert\">" + input + " = " + result + "</div>");
         doGet(request, response);
     }
-	
-	@Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		if (request.getAttribute("message") == null) {
-			request.setAttribute("message", "");
-		}
 
-		request.getRequestDispatcher("/awesomeness.jsp").forward(request, response);
-    }
-	
-	private String doCalculation(String input) {
-        try {
-        	ICalculator calc = new Calculator();
-        	return calc.calculate(input.split(" "));
-        } catch (Exception e) {
-        	e.printStackTrace();
-        	return e.getMessage();
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        if (request.getAttribute("message") == null) {
+            request.setAttribute("message", "");
         }
-	}
+
+        request.getRequestDispatcher("/awesomeness.jsp").forward(request, response);
+    }
+
+    private String doCalculation(String input) {
+        try {
+            ICalculator calc = new Calculator();
+            return calc.calculate(input.split(" "));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return e.getMessage();
+        }
+    }
 }
