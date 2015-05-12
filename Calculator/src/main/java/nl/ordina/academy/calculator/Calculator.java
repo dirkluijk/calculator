@@ -17,6 +17,10 @@ public class Calculator {
         this.interpreter = interpreter;
     }
 
+    public Calculator() {
+        this(new Tokenizer(), new RPNConverter(), new RPNInterpreter());
+    }
+
     public double calculate(String input) throws CalculatorException {
 
         if (input.isEmpty()) {
