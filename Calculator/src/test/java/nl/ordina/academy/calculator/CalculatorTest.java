@@ -4,6 +4,8 @@ import nl.ordina.academy.calculator.exception.EmptyInputException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
@@ -43,19 +45,19 @@ public class CalculatorTest {
 
         String[] tokenizerOutput = {"bar"};
         String[] converterOutput = {"baz"};
-        double interpreterOutput = 3.2d;
+        BigDecimal interpreterOutput = new BigDecimal(3.2d);
 
         when(tokenizer.tokenize(anyString())).thenReturn(tokenizerOutput);
         when(converter.convertToRPN(any(String[].class))).thenReturn(converterOutput);
         when(interpreter.interpretRPN(any(String[].class))).thenReturn(interpreterOutput);
 
         // ACT
-        double result = calc.calculate(calcInput);
+        BigDecimal result = calc.calculate(calcInput);
 
         // ASSERT
         verify(tokenizer).tokenize(calcInput);
         verify(converter).convertToRPN(tokenizerOutput);
         verify(interpreter).interpretRPN(converterOutput);
-        assertEquals(interpreterOutput, result, ACCURACY);
+        assertEquals(interpreterOutput, result);
     }
 }

@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.math.BigDecimal;
 
 import static org.junit.Assert.*;
 import static org.mockito.Matchers.anyString;
@@ -30,9 +31,9 @@ public class CalculatorAppTest {
     public void testRunWithRounding() throws Exception {
 
         // ARRANGE
-        double output1 = -0.005;
-        double output2 = -0.0005;
-        double output3 = -5.000;
+        BigDecimal output1 = new BigDecimal(-0.005);
+        BigDecimal output2 = new BigDecimal(-0.0005);
+        BigDecimal output3 = new BigDecimal(-5.000);
 
         when(calculator.calculate("1")).thenReturn(output1);
         when(calculator.calculate("2")).thenReturn(output2);

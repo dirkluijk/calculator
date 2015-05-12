@@ -2,6 +2,8 @@ package nl.ordina.academy.calculator;
 
 import nl.ordina.academy.calculator.exception.*;
 
+import java.math.BigDecimal;
+
 /**
  * @author Dirk Luijk <dirk.luijk@ordina.nl>
  */
@@ -17,7 +19,11 @@ public class Calculator {
         this.interpreter = interpreter;
     }
 
-    public double calculate(String input) throws CalculatorException {
+    public Calculator() {
+        this(new Tokenizer(), new RPNConverter(), new RPNInterpreter());
+    }
+
+    public BigDecimal calculate(String input) throws CalculatorException {
 
         if (input.isEmpty()) {
             throw new EmptyInputException("Input may not be empty.");
