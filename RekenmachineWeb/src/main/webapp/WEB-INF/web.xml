@@ -6,13 +6,20 @@
   <display-name>Archetype Created Web Application</display-name>
     <servlet>
         <servlet-name>HalloCalcServlet</servlet-name>
-        <servlet-class>
-            com.ocp.servlet.HalloCalcServlet
-        </servlet-class>
+        <servlet-class>com.ocp.servlet.HalloCalcServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet>
+        <servlet-name>AwesomeCalcServlet</servlet-name>
+        <servlet-class>com.ocp.servlet.AwesomeCalcServlet</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
         <servlet-name>HalloCalcServlet</servlet-name>
         <url-pattern>/hallo-calculator</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AwesomeCalcServlet</servlet-name>
+        <url-pattern>/awesome-calculator</url-pattern>
     </servlet-mapping>
 </web-app>
