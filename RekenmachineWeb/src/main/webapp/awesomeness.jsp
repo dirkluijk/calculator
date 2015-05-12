@@ -11,6 +11,7 @@
     <style>
         body {
             padding: 20px;
+            background: #ffffff url("images/spinning-bg.gif") no-repeat left top;
         }
     </style>
 <title>The Awesome Calculator</title>
