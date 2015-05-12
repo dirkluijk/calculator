@@ -6,6 +6,7 @@ import nl.ordina.academy.calculator.RPNInterpreter;
 import nl.ordina.academy.calculator.Tokenizer;
 import nl.ordina.academy.calculator.exception.CalculatorException;
 
+import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.text.DecimalFormat;
 import java.util.logging.Logger;
@@ -26,7 +27,7 @@ public class CalculatorApp {
 
         try {
             input = input.trim();
-            double result = calculator.calculate(input);
+            BigDecimal result = calculator.calculate(input);
 
             DecimalFormat df = new DecimalFormat("#.###");
             df.setRoundingMode(RoundingMode.HALF_UP);

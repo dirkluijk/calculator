@@ -6,6 +6,8 @@ import nl.ordina.academy.calculator.exception.MissingTokenException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.math.BigDecimal;
+
 import static org.junit.Assert.*;
 
 /**
@@ -23,44 +25,44 @@ public class RPNInterpreterTest {
 
     @Test
     public void testEmpty() throws Exception {
-        double result = interpreter.interpretRPN(new String[]{});
-        assertEquals(0, result, ACCURACY);
+        BigDecimal result = interpreter.interpretRPN(new String[]{});
+        assertEquals(BigDecimal.ZERO, result);
     }
 
     @Test
     public void testSingleToken() throws Exception {
-        double result = interpreter.interpretRPN(new String[]{"99"});
-        assertEquals(99, result, ACCURACY);
+        BigDecimal result = interpreter.interpretRPN(new String[]{"99"});
+        assertEquals(new BigDecimal(99), result);
     }
 
     @Test
     public void testWithOperations() throws Exception {
-        double result = interpreter.interpretRPN(new String[]{
+        BigDecimal result = interpreter.interpretRPN(new String[]{
                 "99",
                 "2",
                 "+"
         });
 
-        assertEquals(101, result, ACCURACY);
+        assertEquals(new BigDecimal(101), result);
     }
 
     @Test
     public void testAdvancedExamples() throws Exception {
-        double result1 = interpreter.interpretRPN(new String[]{
+        BigDecimal result1 = interpreter.interpretRPN(new String[]{
                 "4", "2", "5", "*", "+", "1", "3", "2", "*", "+", "/"
         });
 
-        double result2 = interpreter.interpretRPN(new String[]{
+        BigDecimal result2 = interpreter.interpretRPN(new String[]{
                 "2", "5", "*", "6", "+", "3", "2", "*", "1", "+", "/"
         });
 
-        double result3 = interpreter.interpretRPN(new String[]{
+        BigDecimal result3 = interpreter.interpretRPN(new String[]{
                 "2", "5", "*", "6", "+", "3", "2", "*", "1", "-", "/"
         });
 
-        assertEquals(2, result1, ACCURACY);
-        assertEquals(16d / 7d, result2, ACCURACY);
-        assertEquals(16d / 5d, result3, ACCURACY);
+        assertEquals(new BigDecimal("2"), result1);
+        assertEquals(new BigDecimal("2.286"), result2);
+        assertEquals(new BigDecimal("3.2"), result3);
     }
 
     @Test(expected = MissingTokenException.class)
@@ -94,30 +96,30 @@ public class RPNInterpreterTest {
 
     @Test
     public void testDifficultNumbers() throws Exception {
-        double result1 = interpreter.interpretRPN(new String[]{
+        BigDecimal result1 = interpreter.interpretRPN(new String[]{
                 "3.2", "2.4", "+"
         });
 
-        double result2 = interpreter.interpretRPN(new String[]{
+        BigDecimal result2 = interpreter.interpretRPN(new String[]{
                 "-3.2", "2.4", "-"
         });
 
-        assertEquals(3.2d + 2.4d, result1, ACCURACY);
-        assertEquals(-3.2d - 2.4d, result2, ACCURACY);
+        assertEquals(new BigDecimal("5.6"), result1);
+        assertEquals(new BigDecimal("-5.6"), result2);
     }
 
     @Test
     public void testDifficultOperations() throws Exception {
-        double result1 = interpreter.interpretRPN(new String[]{
+        BigDecimal result1 = interpreter.interpretRPN(new String[]{
                 "+5", "-6", "*"
         });
 
-        double result2 = interpreter.interpretRPN(new String[]{
+        BigDecimal result2 = interpreter.interpretRPN(new String[]{
                 "-3.2", "-2.4", "*"
         });
 
-        assertEquals(5.0d * -6.0d, result1, ACCURACY);
-        assertEquals(-3.2d * -2.4d, result2, ACCURACY);
+        assertEquals(new BigDecimal("-30"), result1);
+        assertEquals(new BigDecimal("7.68"), result2);
     }
 
     @Test(expected = DivisionByZeroException.class)
