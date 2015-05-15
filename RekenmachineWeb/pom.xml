@@ -20,16 +20,16 @@
             <version>7.0</version>
             <scope>provided</scope>
         </dependency>
-<!--        <dependency>
-            <groupId>Rekenmachine</groupId>
-            <artifactId>Rekenmachine</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>-->
-<!--        <dependency>
+        <dependency>
             <groupId>nl.ordina.academy</groupId>
             <artifactId>calculator</artifactId>
             <version>1.0-SNAPSHOT</version>
-        </dependency>-->
+        </dependency>
+        <dependency>
+            <groupId>nl.ordina.academy</groupId>
+            <artifactId>calculator</artifactId>
+            <version>1.0-SNAPSHOT</version>
+        </dependency>
     </dependencies>
     <build>
         <finalName>RekenmachineWeb</finalName>
@@ -39,8 +39,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.3</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
@@ -50,6 +50,11 @@
                 <configuration>
                     <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.eclipse.jetty</groupId>
+                <artifactId>jetty-maven-plugin</artifactId>
+                <version>9.2.3.v20140905</version>
             </plugin>
         </plugins>
     </build>

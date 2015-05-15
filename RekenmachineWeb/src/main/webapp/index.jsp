@@ -1,3 +1,6 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
+         pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -7,6 +10,7 @@
     <style>
         body {
             padding: 20px;
+            background: #ffffff url("images/spinning-bg.gif") no-repeat left top;
         }
     </style>
     <title>Awesome Calc!!</title>
@@ -18,9 +22,9 @@
         <div class="well col-md-6 col-md-offset-3">
             <h1><i class="fa fa-calculator"></i> The Awesome Calculator</h1>
             <p>Enter your math expression.</p>
-            <form class="" action="hallo-calculator" method="POST">
+            <form class="" action="calculator" method="POST">
                 <div class="form-group">
-                    <input type="text" name="calcinput" class="form-control" placeholder="e.g. 2 + 5 * 3 / 1" />
+                    <input type="text" name="input" class="form-control" placeholder="e.g. 2 + 5 * 3 / 1" />
                     <div class="help-block">Supported operators:
                         <span class="label label-default">+</span>
                         <span class="label label-default">-</span>
@@ -31,8 +35,7 @@
                 </div>
                 <button class="btn btn-primary">Calculate</button>
             </form>
-            
-            <p class="pull-right"><a href="./awesome-calculator">awesomeness</a></p>
+            <p><%=request.getAttribute("message") %></p>
         </div>
     </div>
 </div>
