@@ -24,7 +24,8 @@
             <p>Enter your math expression.</p>
             <form class="" action="calculator" method="POST">
                 <div class="form-group">
-                    <input type="text" name="input" class="form-control" placeholder="e.g. 2 + 5 * 3 / 1" />
+                    <input type="text" name="input" class="form-control" placeholder="e.g. 2 + 5 * 3 / 1"
+                           value="${ input }" />
                     <div class="help-block">Supported operators:
                         <span class="label label-default">+</span>
                         <span class="label label-default">-</span>
@@ -35,7 +36,7 @@
                 </div>
                 <button class="btn btn-primary">Calculate</button>
             </form>
-            <p><%=request.getAttribute("message") %></p>
+            <p>${ message }</p>
         </div>
     </div>
 </div>
