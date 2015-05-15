@@ -106,7 +106,7 @@ public class RPNConverterTest {
         converter.convertToRPN(new String[] {"9", "8"});
     }
 
-    @Test(expected = MissingTokenException.class)
+    @Test(expected = IllegalTokenException.class)
     public void testSpaceBetweenNumbersInToken() throws Exception {
         converter.convertToRPN(new String[] {"9 8", "+", "8"});
     }
@@ -131,8 +131,8 @@ public class RPNConverterTest {
     }
 
     @Test
-    public void testCustom() throws Exception {
-        String[] strings = converter.convertToRPN(new String[]{"4", "+", "(", "5", "*", "3", "-", "1", ")", "/", "2"});
-
+    public void testWikiExample() throws Exception {
+        String[] strings = converter.convertToRPN(new String[]{"3", "+", "4", "*", "2", "/", "(", "1", "-", "5", ")"});
+        // 3 4 2 * 1 5 - / +
     }
 }

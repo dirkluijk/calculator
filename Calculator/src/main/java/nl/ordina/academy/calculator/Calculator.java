@@ -9,29 +9,29 @@ import java.math.BigDecimal;
  */
 public class Calculator {
 
-    private Tokenizer tokenizer;
+    private MathTokenizer mathTokenizer;
     private RPNConverter converter;
     private RPNInterpreter interpreter;
 
-    public Calculator(Tokenizer tokenizer, RPNConverter converter, RPNInterpreter interpreter) {
-        this.tokenizer = tokenizer;
+    public Calculator(MathTokenizer mathTokenizer, RPNConverter converter, RPNInterpreter interpreter) {
+        this.mathTokenizer = mathTokenizer;
         this.converter = converter;
         this.interpreter = interpreter;
     }
 
     public Calculator() {
-        this(new Tokenizer(), new RPNConverter(), new RPNInterpreter());
+        this(new MathTokenizer(), new RPNConverter(), new RPNInterpreter());
     }
 
     public BigDecimal calculate(String input) throws CalculatorException {
 
-        if (input.isEmpty()) {
+        if (input.trim().isEmpty()) {
             throw new EmptyInputException("Input may not be empty.");
         }
 
-        String[] tokens = tokenizer.tokenize(input);
-        String[] rpn = converter.convertToRPN(tokens);
+        String[] tokens = mathTokenizer.tokenize(input);
+        String[] tokensInRPN = converter.convertToRPN(tokens);
 
-        return interpreter.interpretRPN(rpn);
+        return interpreter.interpretRPN(tokensInRPN);
     }
 }

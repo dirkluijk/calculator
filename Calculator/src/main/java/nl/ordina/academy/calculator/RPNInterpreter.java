@@ -40,7 +40,7 @@ public class RPNInterpreter {
         Stack<BigDecimal> stack = new Stack<>();
 
         for(String t : tokens) {
-            if(!isOperator(t)){
+            if(!Operator.isOperator(t)){
                 try {
                     stack.push(new BigDecimal(t, MATH_CONTEXT));
                 } catch (NumberFormatException e) {
@@ -56,7 +56,7 @@ public class RPNInterpreter {
                     throw new MissingTokenException("Missing a numeric token.");
                 }
 
-                Operator operator = findOperator(t);
+                Operator operator = Operator.getOperator(t);
 
                 switch(operator){
                     case SUM:
@@ -93,18 +93,5 @@ public class RPNInterpreter {
 
         return returnValue;
 
-    }
-
-    private boolean isOperator(String token) {
-        return findOperator(token) != null;
-    }
-
-    private Operator findOperator(String token) {
-        for (Operator o : Operator.values()) {
-            if (token.equals(o.getCharacter()))
-                return o;
-        }
-
-        return null;
     }
 }

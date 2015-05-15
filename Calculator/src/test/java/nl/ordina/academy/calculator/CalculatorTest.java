@@ -21,20 +21,25 @@ public class CalculatorTest {
 
     private RPNInterpreter interpreter;
     private RPNConverter converter;
-    private Tokenizer tokenizer;
+    private MathTokenizer mathTokenizer;
 
     @Before
     public void setUp() throws Exception {
-        tokenizer = mock(Tokenizer.class);
+        mathTokenizer = mock(MathTokenizer.class);
         converter = mock(RPNConverter.class);
         interpreter = mock(RPNInterpreter.class);
 
-        calc = new Calculator(tokenizer, converter, interpreter);
+        calc = new Calculator(mathTokenizer, converter, interpreter);
     }
 
     @Test(expected = EmptyInputException.class)
     public void testEmptyInput() throws Exception {
         calc.calculate("");
+    }
+
+    @Test(expected = EmptyInputException.class)
+    public void testSpaceOnlyInput() throws Exception {
+        calc.calculate("  ");
     }
 
     @Test
@@ -47,7 +52,7 @@ public class CalculatorTest {
         String[] converterOutput = {"baz"};
         BigDecimal interpreterOutput = new BigDecimal(3.2d);
 
-        when(tokenizer.tokenize(anyString())).thenReturn(tokenizerOutput);
+        when(mathTokenizer.tokenize(anyString())).thenReturn(tokenizerOutput);
         when(converter.convertToRPN(any(String[].class))).thenReturn(converterOutput);
         when(interpreter.interpretRPN(any(String[].class))).thenReturn(interpreterOutput);
 
@@ -55,7 +60,7 @@ public class CalculatorTest {
         BigDecimal result = calc.calculate(calcInput);
 
         // ASSERT
-        verify(tokenizer).tokenize(calcInput);
+        verify(mathTokenizer).tokenize(calcInput);
         verify(converter).convertToRPN(tokenizerOutput);
         verify(interpreter).interpretRPN(converterOutput);
         assertEquals(interpreterOutput, result);

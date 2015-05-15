@@ -4,7 +4,7 @@ package nl.ordina.academy.calculator;
  * @author Dirk Luijk <dirk.luijk@ordina.nl>
  */
 public enum Operator {
-    LEFT_PARENTHESIS("(", 2), RIGHT_PARENTHESIS(")", 2),
+    LEFT_PARENTHESIS("(", -1), RIGHT_PARENTHESIS(")", -1),
     MULTIPLY("*", 1), DIVIDE("/", 1),
     SUM("+", 0), SUBTRACT("-", 0);
 
@@ -42,7 +42,15 @@ public enum Operator {
         return getOperator(token) != null;
     }
 
-    public static boolean isOperator(char c) {
-        return isOperator(String.valueOf(c));
+    public static boolean isParenthesis(String token) {
+        return isLeftParenthesis(token) || isRightParenthesis(token);
+    }
+
+    public static boolean isRightParenthesis(String token) {
+        return RIGHT_PARENTHESIS.getCharacter().equals(token);
+    }
+
+    public static boolean isLeftParenthesis(String token) {
+        return LEFT_PARENTHESIS.getCharacter().equals(token);
     }
 }

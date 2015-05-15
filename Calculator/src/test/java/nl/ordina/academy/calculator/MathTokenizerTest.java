@@ -8,30 +8,30 @@ import static org.junit.Assert.*;
 /**
  * @author Dirk Luijk <dirk.luijk@ordina.nl>
  */
-public class TokenizerTest {
+public class MathTokenizerTest {
 
-    private Tokenizer tokenizer;
+    private MathTokenizer mathTokenizer;
 
     @Before
     public void setUp() throws Exception {
-        tokenizer = new Tokenizer();
+        mathTokenizer = new MathTokenizer();
     }
 
     @Test
     public void testEmpty() throws Exception {
-        String[] tokens = tokenizer.tokenize("");
+        String[] tokens = mathTokenizer.tokenize("");
         assertEquals(0, tokens.length);
     }
 
     @Test
     public void testNumber() throws Exception {
-        String[] tokens = tokenizer.tokenize("1");
+        String[] tokens = mathTokenizer.tokenize("1");
         assertEquals("1", tokens[0]);
     }
 
     @Test
     public void testIgnoreSpaces() throws Exception {
-        String[] tokens = tokenizer.tokenize("1 + 2");
+        String[] tokens = mathTokenizer.tokenize("1 + 2");
         assertEquals("1", tokens[0]);
         assertEquals("+", tokens[1]);
         assertEquals("2", tokens[2]);
@@ -39,10 +39,10 @@ public class TokenizerTest {
 
     @Test
     public void testNumbers() throws Exception {
-        String[] tokens1 = tokenizer.tokenize("-1.5*1");
-        String[] tokens2 = tokenizer.tokenize("-.5/1");
-        String[] tokens3 = tokenizer.tokenize("+.5+1");
-        String[] tokens4 = tokenizer.tokenize("+5-1");
+        String[] tokens1 = mathTokenizer.tokenize("-1.5*1");
+        String[] tokens2 = mathTokenizer.tokenize("-.5/1");
+        String[] tokens3 = mathTokenizer.tokenize("+.5+1");
+        String[] tokens4 = mathTokenizer.tokenize("+5-1");
 
         assertEquals("-1.5", tokens1[0]);
         assertEquals("*", tokens1[1]);
@@ -63,7 +63,7 @@ public class TokenizerTest {
 
     @Test
     public void testAdvanced() throws Exception {
-        String[] tokens = tokenizer.tokenize("-.5/4.2*-1");
+        String[] tokens = mathTokenizer.tokenize("-.5/4.2*-1");
 
         assertEquals("-.5", tokens[0]);
         assertEquals("/", tokens[1]);
@@ -74,7 +74,7 @@ public class TokenizerTest {
 
     @Test
     public void testIssue1() throws Exception {
-        String[] tokens = tokenizer.tokenize("(1+2*3)-4/5");
+        String[] tokens = mathTokenizer.tokenize("(1+2*3)-4/5");
 
         assertEquals("(", tokens[0]);
         assertEquals("1", tokens[1]);

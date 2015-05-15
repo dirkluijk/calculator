@@ -1,12 +1,11 @@
 package nl.ordina.academy.calculator;
 
+import nl.ordina.academy.calculator.exception.CalculatorException;
 import nl.ordina.academy.calculator.exception.IllegalTokenException;
 import nl.ordina.academy.calculator.exception.MissingParenthesisException;
 import nl.ordina.academy.calculator.exception.MissingTokenException;
 
 import java.util.*;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Dirk Luijk <dirk.luijk@ordina.nl>
@@ -18,50 +17,22 @@ public class RPNConverter {
 
     /**
      * Rearranges an array of mathematical tokens into RPN (Reverse Polish Notation).
+     *
      * @param tokens
      * @return
-     * @throws MissingParenthesisException
-     * @throws IllegalTokenException
-     * @throws MissingTokenException
+     * @throws CalculatorException
      */
-    public String[] convertToRPN(String[] tokens) throws MissingParenthesisException, IllegalTokenException, MissingTokenException {
+    public String[] convertToRPN(String[] tokens) throws CalculatorException {
         output = new ArrayList<>();
         operatorStack = new Stack<>();
 
-        tokens = handleSpaces(tokens);
+        trimTokens(tokens);
 
-        String previousToken = null;
+        for (int i = 0; i < tokens.length; i++) {
+            String token = tokens[i];
+            String previousToken = i == 0 ? null : tokens[i - 1];
 
-        for (String token : tokens) {
-            if (isEmptySpace(token)) {
-                continue;
-            } else if (isNumber(token)) {
-                if (isNumber(previousToken)) {
-                    throw new MissingTokenException("Missing an operator between two numbers.");
-                }
-
-                if (previousToken != null && isRightParenthesis(previousToken)) {
-                    handleOperator("*");
-                }
-
-                output.add(token);
-            } else if (isLeftParenthesis(token)) {
-                if (previousToken != null && (isNumber(previousToken) || isRightParenthesis(previousToken))) {
-                    handleOperator("*");
-                }
-
-                operatorStack.push(findOperator(token));
-            } else if (isRightParenthesis(token)) {
-                handleRightParenthesis();
-
-            } else if (isOperator(token)) {
-                handleOperator(token);
-
-            } else {
-                throw new IllegalTokenException("Invalid token: " + token);
-            }
-
-            previousToken = token;
+            shuntingYard(token, previousToken);
         }
 
         while (!operatorStack.empty()) {
@@ -76,28 +47,61 @@ public class RPNConverter {
 
     }
 
-    private void handleOperator(String token) {
-        Operator o1 = findOperator(token);
+    private void shuntingYard(String token, String previousToken) throws CalculatorException {
+        token = token.trim();
 
-        while (!operatorStack.empty()) {
-            Operator o2 = operatorStack.peek();
-
-            assert o1 != null;
-            if (o2 != Operator.LEFT_PARENTHESIS && o1.getPrecedence() <= o2.getPrecedence()) {
-                output.add(operatorStack.pop().toString());
-            } else {
-                break;
-            }
-
-            //todo: o1 is right associative, and has precedence less than that of o2,
+        if (token.isEmpty()) {
+            return;
         }
 
-        operatorStack.push(o1);
+        if (isValidNumber(token) && isValidNumber(previousToken)) {
+            throw new MissingTokenException("Missing an operator between two numbers.");
+        }
+
+        if (isValidNumber(token)) {
+            if (Operator.isRightParenthesis(previousToken)) {
+                putOperatorOnStack("*");
+            }
+
+            output.add(token);
+        } else if (Operator.isLeftParenthesis(token)) {
+            if (previousToken != null && (isValidNumber(previousToken) || Operator.isRightParenthesis(previousToken))) {
+                putOperatorOnStack("*");
+            }
+
+            pushLeftParenthesisOnOperatorStack(token);
+        } else if (Operator.isRightParenthesis(token)) {
+            popFromOperatorStackUntilLeftParenthesis();
+        } else if (Operator.isOperator(token)) {
+            putOperatorOnStack(token);
+        } else {
+            throw new IllegalTokenException("Invalid token: " + token);
+        }
     }
 
-    private void handleRightParenthesis() throws MissingParenthesisException {
+    private void pushLeftParenthesisOnOperatorStack(String token) {
+        operatorStack.push(Operator.getOperator(token));
+    }
+
+    private void putOperatorOnStack(String token) {
+        Operator currentOperator = Operator.getOperator(token);
+
+        assert currentOperator != null;
+        while (!operatorStack.empty() && nextOperatorHasPrecedenceOver(currentOperator)) {
+            output.add(operatorStack.pop().toString());
+        }
+
+        operatorStack.push(currentOperator);
+    }
+
+    private boolean nextOperatorHasPrecedenceOver(Operator currentOperator) {
+        Operator nextOperator = operatorStack.peek();
+        return currentOperator.getPrecedence() <= nextOperator.getPrecedence();
+    }
+
+    private void popFromOperatorStackUntilLeftParenthesis() throws MissingParenthesisException {
         try {
-            while (!isLeftParenthesis(operatorStack.peek().getCharacter())) {
+            while (operatorStack.peek() != Operator.LEFT_PARENTHESIS) {
                 output.add(operatorStack.pop().toString());
             }
 
@@ -107,61 +111,20 @@ public class RPNConverter {
         }
     }
 
-    private boolean isEmptySpace(String token) {
-        return token.trim().isEmpty();
-    }
-
-    private String[] handleSpaces(String[] tokens) throws MissingTokenException {
+    private void trimTokens(String[] tokens) {
         for (int i = 0; i < tokens.length; i++) {
-            tokens[i] = handleSpaces(tokens[i]);
+            tokens[i] = tokens[i].trim();
         }
-
-        return tokens;
     }
 
-    private String handleSpaces(String input) throws MissingTokenException {
-        Pattern p = Pattern.compile("\\d \\d");
-        Matcher m = p.matcher(input);
-
-        if (m.find()) {
-            throw new MissingTokenException("Missing an operator between two numbers.");
-        }
-
-        return input.replace(" ", "");
-    }
-
-    private Operator findOperator(String token) {
-        for (Operator o : Operator.values()) {
-            if (token.equals(o.getCharacter()))
-                return o;
-        }
-
-        return null;
-    }
-
-    private boolean isRightParenthesis(String token) {
-        return token.equals(")");
-    }
-
-    private boolean isLeftParenthesis(String token) {
-        return token.equals("(");
-    }
-
-    private boolean isOperator(String token) {
-        return findOperator(token) != null;
-    }
-
-    private boolean isNumber(String token) {
-        if (token == null) {
-            return false;
-        }
-
+    private boolean isValidNumber(String token) {
         try {
             //noinspection ResultOfMethodCallIgnored
             Double.parseDouble(token);
-            return true;
-        } catch (NumberFormatException e) {
+        } catch (NumberFormatException|NullPointerException e) {
             return false;
         }
+
+        return true;
     }
 }

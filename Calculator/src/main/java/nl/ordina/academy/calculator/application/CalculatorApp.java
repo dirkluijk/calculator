@@ -3,7 +3,7 @@ package nl.ordina.academy.calculator.application;
 import nl.ordina.academy.calculator.Calculator;
 import nl.ordina.academy.calculator.RPNConverter;
 import nl.ordina.academy.calculator.RPNInterpreter;
-import nl.ordina.academy.calculator.Tokenizer;
+import nl.ordina.academy.calculator.MathTokenizer;
 import nl.ordina.academy.calculator.exception.CalculatorException;
 
 import java.math.BigDecimal;
@@ -46,7 +46,7 @@ public class CalculatorApp {
             builder.append(arg);
         }
 
-        Calculator calculator = new Calculator(new Tokenizer(), new RPNConverter(), new RPNInterpreter());
+        Calculator calculator = new Calculator(new MathTokenizer(), new RPNConverter(), new RPNInterpreter());
         CalculatorApp app = new CalculatorApp(calculator);
         String output = app.run(builder.toString());
 
