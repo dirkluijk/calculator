@@ -1,3 +1,5 @@
+<jsp:useBean id="input" scope="request" type="java.lang.String"/>
+<jsp:useBean id="message" scope="request" type="java.lang.String"/>
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
