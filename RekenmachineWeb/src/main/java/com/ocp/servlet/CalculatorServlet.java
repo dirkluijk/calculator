@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * Servlet Calculator handles HTTP requests to communicate with 3th-party lib calculator
+ */
 @SuppressWarnings("serial")
 @WebServlet("/calculator")
 public class CalculatorServlet extends HttpServlet {
