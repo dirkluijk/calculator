@@ -14,6 +14,13 @@ import java.io.IOException;
 @WebServlet("/calculator")
 public class CalculatorServlet extends HttpServlet {
 
+    /**
+     * Handles the Post method of the request of this servlet.
+     * @param request {@link HttpServletRequest} the HTTP Post request object
+     * @param response {@link HttpServletResponse} the HTTP Post response object 
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String input = request.getParameter("input");
@@ -25,6 +32,13 @@ public class CalculatorServlet extends HttpServlet {
         doGet(request, response);
     }
 
+    /**
+     * Handles the Get method of the request of this servlet.
+     * @param request {@link HttpServletRequest} the HTTP Get request object
+     * @param response {@link HttpServletResponse} the HTTP Get response object 
+     * @throws ServletException
+     * @throws IOException
+     */
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         request.getRequestDispatcher("/index.jsp").forward(request, response);
