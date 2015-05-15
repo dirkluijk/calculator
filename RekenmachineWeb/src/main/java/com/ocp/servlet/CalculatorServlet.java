@@ -1,6 +1,6 @@
 package com.ocp.servlet;
 
-import nl.ordina.academy.calculator.Calculator;
+import com.ocp.servlet.bean.CalculatorBean;
 import nl.ordina.academy.calculator.exception.CalculatorException;
 
 import javax.servlet.ServletException;
@@ -9,8 +9,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.inject.Inject;
 
 /**
@@ -20,7 +18,7 @@ import javax.inject.Inject;
 @WebServlet("/calculator")
 
 public class CalculatorServlet extends HttpServlet {
-    @Inject Calculator calculator;
+    @Inject CalculatorBean calculator;
 
     /**
      * Handles the Post method of the request of this servlet.
@@ -54,7 +52,7 @@ public class CalculatorServlet extends HttpServlet {
 
     private String doCalculation(String input) {
         try {
-            String result = calculator.calculate(input).toString();
+            String result = calculator.getCalculator().calculate(input).toString();
             return String.format("<div class=\"alert alert-success\" role=\"alert\">%s = %s</div>", input, result);
         } catch (CalculatorException e) {
             return String.format("<div class=\"alert alert-danger\" role=\"alert\">%s</div>", e.getMessage());
