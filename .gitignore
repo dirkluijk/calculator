@@ -1,1 +1,5 @@
 target
+*.iml
+nb-configuration.xml
+*.classpath
+.project

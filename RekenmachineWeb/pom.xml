@@ -7,6 +7,26 @@
     <version>0.0.1-SNAPSHOT</version>
     <name>RekenmachineWeb Maven Webapp</name>
     <url>http://maven.apache.org</url>
+
+    <contributors>
+        <contributor>
+            <name>Ronald van Broeckhuijsen</name>
+            <email>ronald.van.broeckhuijsen@ordina.nl</email>
+        </contributor>
+        <contributor>
+            <name>Patricia de Lely</name>
+            <email>patricia.de.lely@ordina.nl</email>
+        </contributor>
+        <contributor>
+            <name>Koen Meirmans</name>
+            <email>koen.meirmans@ordina.nl</email>
+        </contributor>
+        <contributor>
+            <name>Nathan Perdijk</name>
+            <email>nathan.perdijk@ordina.nl</email>
+        </contributor>
+    </contributors>
+
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
@@ -25,12 +45,8 @@
             <artifactId>calculator</artifactId>
             <version>1.0-SNAPSHOT</version>
         </dependency>
-        <dependency>
-            <groupId>nl.ordina.academy</groupId>
-            <artifactId>calculator</artifactId>
-            <version>1.0-SNAPSHOT</version>
-        </dependency>
     </dependencies>
+
     <build>
         <finalName>RekenmachineWeb</finalName>
         <plugins>
