@@ -1,5 +1,11 @@
 target
+
+# IntelliJ files
 *.iml
+
+# NetBeans files
 nb-configuration.xml
+
+# Eclipse files
 *.classpath
 .project
