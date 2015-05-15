@@ -9,3 +9,4 @@ nb-configuration.xml
 # Eclipse files
 *.classpath
 .project
+.settings
