@@ -1,9 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1"%>
 <!DOCTYPE html>
 <html>
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta charset="utf-8"/>
     <link rel="stylesheet" href="bower_components/bootswatch/cerulean/bootstrap.min.css"/>
     <link rel="stylesheet" href="bower_components/fontawesome/css/font-awesome.min.css"/>
     <style>
@@ -12,20 +11,20 @@
             background: #ffffff url("images/spinning-bg.gif") no-repeat left top;
         }
     </style>
-    <title>Awesome Calc!!</title>
+    <title>Toffe Rekenmachine</title>
 </head>
 <body>
 
 <div class="container">
     <div class="row">
         <div class="well col-md-6 col-md-offset-3">
-            <h1><i class="fa fa-calculator"></i> The Awesome Calculator</h1>
-            <p>Enter your math expression.</p>
+            <h1><i class="fa fa-calculator"></i> De toffe rekenmachine</h1>
+            <p>Vul een rekenopdracht in.</p>
             <form class="" action="calculator" method="POST">
                 <div class="form-group">
-                    <input type="text" name="input" class="form-control" placeholder="e.g. 2 + 5 * 3 / 1"
+                    <input type="text" name="input" class="form-control" placeholder="bijv. 2 + 5 * 3 / 1"
                            value="${ input }" />
-                    <div class="help-block">Supported operators:
+                    <div class="help-block">Ondersteunde operaties:
                         <span class="label label-default">+</span>
                         <span class="label label-default">-</span>
                         <span class="label label-default">*</span>
@@ -33,7 +32,7 @@
                         <span class="label label-default">(</span>
                         <span class="label label-default">)</span></div>
                 </div>
-                <button class="btn btn-primary">Calculate</button>
+                <button class="btn btn-primary">Berekenen</button>
             </form>
             <p>${ message }</p>
         </div>
