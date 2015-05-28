@@ -92,7 +92,7 @@
 
                 <configuration>
                     <port>8080</port>
-                    <contextRoot>test</contextRoot>
+                    <contextRoot>calculator</contextRoot>
                     <autoDelete>true</autoDelete>
                 </configuration>
             </plugin>
