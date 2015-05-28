@@ -12,9 +12,6 @@ import java.util.*;
  */
 public class RPNConverter {
 
-    private List<String> output;
-    private Stack<Operator> operatorStack;
-
     /**
      * Rearranges an array of mathematical tokens into RPN (Reverse Polish Notation).
      *
@@ -23,8 +20,8 @@ public class RPNConverter {
      * @throws CalculatorException
      */
     public String[] convertToRPN(String[] tokens) throws CalculatorException {
-        output = new ArrayList<>();
-        operatorStack = new Stack<>();
+        Stack<String> output = new Stack<>();
+        Stack<Operator> operatorStack = new Stack<>();
 
         trimTokens(tokens);
 
@@ -32,7 +29,7 @@ public class RPNConverter {
             String token = tokens[i];
             String previousToken = i == 0 ? null : tokens[i - 1];
 
-            shuntingYard(token, previousToken);
+            shuntingYard(token, previousToken, output, operatorStack);
         }
 
         while (!operatorStack.empty()) {
@@ -47,7 +44,7 @@ public class RPNConverter {
 
     }
 
-    private void shuntingYard(String token, String previousToken) throws CalculatorException {
+    private void shuntingYard(String token, String previousToken, Stack<String> output, Stack<Operator> operatorStack) throws CalculatorException {
         token = token.trim();
 
         if (token.isEmpty()) {
@@ -60,55 +57,42 @@ public class RPNConverter {
 
         if (isValidNumber(token)) {
             if (Operator.isRightParenthesis(previousToken)) {
-                putOperatorOnStack("*");
+                putOperatorOnStack("*", output, operatorStack);
             }
 
             output.add(token);
         } else if (Operator.isLeftParenthesis(token)) {
             if (previousToken != null && (isValidNumber(previousToken) || Operator.isRightParenthesis(previousToken))) {
-                putOperatorOnStack("*");
+                putOperatorOnStack("*", output, operatorStack);
             }
 
-            pushLeftParenthesisOnOperatorStack(token);
+            operatorStack.push(Operator.getOperator(token));
         } else if (Operator.isRightParenthesis(token)) {
-            popFromOperatorStackUntilLeftParenthesis();
+            try {
+                while (operatorStack.peek() != Operator.LEFT_PARENTHESIS) {
+                    output.add(operatorStack.pop().toString());
+                }
+
+                operatorStack.pop();
+            } catch (EmptyStackException e) {
+                throw new MissingParenthesisException("Missing a opening parenthesis.", e);
+            }
         } else if (Operator.isOperator(token)) {
-            putOperatorOnStack(token);
+            putOperatorOnStack(token, output, operatorStack);
         } else {
             throw new IllegalTokenException("Invalid token: " + token);
         }
     }
 
-    private void pushLeftParenthesisOnOperatorStack(String token) {
-        operatorStack.push(Operator.getOperator(token));
-    }
-
-    private void putOperatorOnStack(String token) {
+    private void putOperatorOnStack(String token, Stack<String> output, Stack<Operator> operatorStack) {
         Operator currentOperator = Operator.getOperator(token);
 
         assert currentOperator != null;
-        while (!operatorStack.empty() && nextOperatorHasPrecedenceOver(currentOperator)) {
+        while (!operatorStack.empty() && currentOperator.getPrecedence() <= operatorStack.peek().getPrecedence()) {
             output.add(operatorStack.pop().toString());
         }
 
         operatorStack.push(currentOperator);
-    }
-
-    private boolean nextOperatorHasPrecedenceOver(Operator currentOperator) {
-        Operator nextOperator = operatorStack.peek();
-        return currentOperator.getPrecedence() <= nextOperator.getPrecedence();
-    }
-
-    private void popFromOperatorStackUntilLeftParenthesis() throws MissingParenthesisException {
-        try {
-            while (operatorStack.peek() != Operator.LEFT_PARENTHESIS) {
-                output.add(operatorStack.pop().toString());
-            }
-
-            operatorStack.pop();
-        } catch (EmptyStackException e) {
-            throw new MissingParenthesisException("Missing a opening parenthesis.", e);
-        }
     }
 
     private void trimTokens(String[] tokens) {
