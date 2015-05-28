@@ -15,7 +15,7 @@ import java.util.Stack;
  */
 public class RPNInterpreter {
 
-    public static final BigDecimal NIHIL = new BigDecimal(0.00001);
+    public static final BigDecimal NIHIL = BigDecimal.valueOf(0.00001);
     public static final MathContext MATH_CONTEXT = new MathContext(4, RoundingMode.HALF_UP);
 
     /**
