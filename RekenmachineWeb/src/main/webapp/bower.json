@@ -2,9 +2,6 @@
   "name": "calculator",
   "version": "1.0.0",
   "homepage": "https://github.com/dirkluijk/calculator",
-  "authors": [
-    "Dirk Luijk <dirk.luijk@ordina.nl>"
-  ],
   "description": "A calculator",
   "moduleType": [
     "globals"
