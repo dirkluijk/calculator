@@ -70,8 +70,8 @@ public class RPNInterpreter {
                         break;
                     case DIVIDE:
                     default:
-                        if (a.compareTo(NIHIL) == -1) {
-                            throw new DivisionByZeroException("Cannot devide by zero.");
+                        if (a.abs().compareTo(NIHIL) == -1) {
+                            throw new DivisionByZeroException("Cannot divide by zero.");
                         }
                         stack.push(b.divide(a, MATH_CONTEXT));
                         break;

@@ -8,14 +8,13 @@ import org.junit.Test;
 
 import java.math.BigDecimal;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Dirk Luijk <dirk.luijk@ordina.nl>
  */
 public class RPNInterpreterTest {
 
-    private static final double ACCURACY = 0.00001;
     private RPNInterpreter interpreter;
 
     @Before
@@ -127,5 +126,18 @@ public class RPNInterpreterTest {
         interpreter.interpretRPN(new String[]{
                 "2", "1", "1", "-", "/"
         });
+    }
+
+    @Test
+    public void testDivideByNegative() throws Exception {
+        BigDecimal result1 = interpreter.interpretRPN(new String[]{
+                "1", "-2", "/"
+        });
+        BigDecimal result2 = interpreter.interpretRPN(new String[]{
+                "-1", "2", "/"
+        });
+
+        assertEquals(new BigDecimal("-.5"), result1);
+        assertEquals(new BigDecimal("-.5"), result2);
     }
 }
