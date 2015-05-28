@@ -1,13 +1,14 @@
 package com.ocp.servlet.bean;
 
-import java.io.Serializable;
-import javax.enterprise.context.RequestScoped;
 import nl.ordina.academy.calculator.Calculator;
+
+import javax.enterprise.context.ApplicationScoped;
+import java.io.Serializable;
 
 /**
  * Bean which holds an requestscoped instance of Calculator.
  */
-@RequestScoped
+@ApplicationScoped
 public class CalculatorBean implements Serializable {
     private Calculator calculator = new Calculator();
 
