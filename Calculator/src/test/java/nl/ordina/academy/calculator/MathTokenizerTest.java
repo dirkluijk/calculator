@@ -4,6 +4,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * @author Dirk Luijk <dirk.luijk@ordina.nl>
@@ -87,7 +88,23 @@ public class MathTokenizerTest {
         assertEquals("4", tokens[8]);
         assertEquals("/", tokens[9]);
         assertEquals("5", tokens[10]);
+    }
 
+    @Test
+    public void testFromMonkey() throws Exception {
+        String[] tokens = mathTokenizer.tokenize("11.455 + -35.804");
 
+        assertEquals("11.455", tokens[0]);
+        assertEquals("+", tokens[1]);
+        assertEquals("-35.804", tokens[2]);
+    }
+
+    @Test
+    public void testAnotherFromMonkey() throws Exception {
+        String[] tokens = mathTokenizer.tokenize("(-47.56)");
+
+        assertEquals("(", tokens[0]);
+        assertEquals("-47.56", tokens[1]);
+        assertEquals(")", tokens[2]);
     }
 }

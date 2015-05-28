@@ -59,11 +59,13 @@ public class MathTokenizer {
     }
 
     private boolean isNotNumber(String previousToken) {
-        return Operator.isOperator(previousToken) && !Operator.isParenthesis(previousToken);
+        return Operator.isOperator(previousToken) && !Operator.isRightParenthesis(previousToken);
     }
 
     private LinkedList<String> splitOnOperators(String input) {
         //return new StringTokenizer(input, "+-/*()", true); // zou leesbaarder zijn
+
+        input = input.replace(" ", "");
 
         String[] tokens = input.split("(?<=[\\*\\+\\-/\\(\\)])|(?=[\\*\\+\\-/\\(\\)])", -1);
         return new LinkedList<>(Arrays.asList(tokens));
