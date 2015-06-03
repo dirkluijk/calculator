@@ -79,13 +79,7 @@ public class RPNInterpreter {
             }
         }
 
-        BigDecimal returnValue;
-
-        try {
-            returnValue = stack.pop();
-        } catch (NumberFormatException e) {
-            throw new IllegalTokenException("Invalid token.", e);
-        }
+        BigDecimal returnValue = stack.pop();
 
         if (!stack.isEmpty()) {
             throw new MissingTokenException("Missing an operator.");
