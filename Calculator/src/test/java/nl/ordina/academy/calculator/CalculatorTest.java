@@ -5,6 +5,8 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
@@ -15,7 +17,6 @@ import static org.mockito.Mockito.*;
  * @author Dirk Luijk <dirk.luijk@ordina.nl>
  */
 public class CalculatorTest {
-    public static final double ACCURACY = 0.00001;
 
     private Calculator calc;
 
@@ -48,13 +49,13 @@ public class CalculatorTest {
         // ARRANGE
         String calcInput = "foo";
 
-        String[] tokenizerOutput = {"bar"};
-        String[] converterOutput = {"baz"};
+        List<String> tokenizerOutput = Arrays.asList("bar");
+        List<String> converterOutput = Arrays.asList("baz");
         BigDecimal interpreterOutput = new BigDecimal(3.2d);
 
         when(mathTokenizer.tokenize(anyString())).thenReturn(tokenizerOutput);
-        when(converter.convertToRPN(any(String[].class))).thenReturn(converterOutput);
-        when(interpreter.interpretRPN(any(String[].class))).thenReturn(interpreterOutput);
+        when(converter.convertToRPN(anyListOf(String.class))).thenReturn(converterOutput);
+        when(interpreter.interpretRPN(anyListOf(String.class))).thenReturn(interpreterOutput);
 
         // ACT
         BigDecimal result = calc.calculate(calcInput);

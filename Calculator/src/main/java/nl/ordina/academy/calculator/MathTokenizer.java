@@ -19,7 +19,7 @@ public class MathTokenizer {
      * @param input A mathematical expression.
      * @return An array of String tokens.
      */
-    public String[] tokenize(String input) {
+    public List<String> tokenize(String input) {
         StringTokenizer t = new StringTokenizer(input, "+-*/()", true);
         Stack<String> tokens = new Stack<>();
 
@@ -32,7 +32,7 @@ public class MathTokenizer {
             tokens.add(token);
         }
 
-        return tokens.toArray(new String[tokens.size()]);
+        return tokens;
     }
 
     private boolean isNotNumber(String previousToken) {

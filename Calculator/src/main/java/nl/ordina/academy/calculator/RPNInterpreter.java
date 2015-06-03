@@ -8,6 +8,7 @@ import java.math.BigDecimal;
 import java.math.MathContext;
 import java.math.RoundingMode;
 import java.util.EmptyStackException;
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -31,9 +32,9 @@ public class RPNInterpreter {
      * @throws MissingTokenException If an operator or a number is missing.
      * @throws IllegalTokenException If an illegal token was passed.
      */
-    public BigDecimal interpretRPN(String[] tokens) throws MissingTokenException, IllegalTokenException, DivisionByZeroException {
+    public BigDecimal interpretRPN(List<String> tokens) throws MissingTokenException, IllegalTokenException, DivisionByZeroException {
 
-        if (tokens.length == 0) {
+        if (tokens.isEmpty()) {
             return BigDecimal.ZERO;
         }
 

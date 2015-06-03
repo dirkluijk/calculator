@@ -1,6 +1,8 @@
 package nl.ordina.academy.calculator;
 
 import java.math.BigDecimal;
+import java.util.List;
+
 import nl.ordina.academy.calculator.exception.CalculatorException;
 import nl.ordina.academy.calculator.exception.EmptyInputException;
 
@@ -44,8 +46,8 @@ public class Calculator {
             throw new EmptyInputException("Input may not be empty.");
         }
 
-        String[] tokens = tokenizer.tokenize(input);
-        String[] rpn = converter.convertToRPN(tokens);
+        List<String> tokens = tokenizer.tokenize(input);
+        List<String> rpn = converter.convertToRPN(tokens);
 
         return interpreter.interpretRPN(rpn);
     }

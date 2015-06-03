@@ -19,15 +19,15 @@ public class RPNConverter {
      * @return
      * @throws CalculatorException
      */
-    public String[] convertToRPN(String[] tokens) throws CalculatorException {
+    public List<String> convertToRPN(List<String> tokens) throws CalculatorException {
         Stack<String> output = new Stack<>();
         Stack<Operator> operatorStack = new Stack<>();
 
         trimTokens(tokens);
 
-        for (int i = 0; i < tokens.length; i++) {
-            String token = tokens[i];
-            String previousToken = i == 0 ? null : tokens[i - 1];
+        for (int i = 0; i < tokens.size(); i++) {
+            String token = tokens.get(i);
+            String previousToken = i == 0 ? null : tokens.get(i - 1);
 
             shuntingYard(token, previousToken, output, operatorStack);
         }
@@ -40,8 +40,7 @@ public class RPNConverter {
             output.add(operatorStack.pop().toString());
         }
 
-        return output.toArray(new String[output.size()]);
-
+        return output;
     }
 
     private void shuntingYard(String token, String previousToken, Stack<String> output, Stack<Operator> operatorStack) throws CalculatorException {
@@ -95,10 +94,9 @@ public class RPNConverter {
         operatorStack.push(currentOperator);
     }
 
-    private void trimTokens(String[] tokens) {
-        for (int i = 0; i < tokens.length; i++) {
-            tokens[i] = tokens[i].trim();
-        }
+    private void trimTokens(List<String> tokens) {
+        tokens.stream()
+                .forEach(String::trim);
     }
 
     private boolean isValidNumber(String token) {

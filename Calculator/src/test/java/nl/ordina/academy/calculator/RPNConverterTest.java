@@ -6,6 +6,9 @@ import nl.ordina.academy.calculator.exception.MissingTokenException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 import static org.junit.Assert.*;
 
 /**
@@ -22,117 +25,115 @@ public class RPNConverterTest {
 
     @Test
     public void testEmpty() throws Exception {
-        String[] result = converter.convertToRPN(new String[] {""});
-        assertEquals(0, result.length);
+        List<String> result = converter.convertToRPN(Arrays.asList(""));
+        assertEquals(0, result.size());
     }
-
-
 
     @Test
     public void testNumber() throws Exception {
-        String[] result = converter.convertToRPN(new String[] {"4"});
-        assertEquals("4", result[0]);
+        List<String> result = converter.convertToRPN(Arrays.asList("4"));
+        assertEquals("4", result.get(0));
     }
 
     @Test
     public void testWithSpaces() throws Exception {
-        String[] result1 = converter.convertToRPN(new String[] {" 5 "});
-        String[] result2 = converter.convertToRPN(new String[] {" ", "5", " "});
+        List<String> result1 = converter.convertToRPN(Arrays.asList(" 5 "));
+        List<String> result2 = converter.convertToRPN(Arrays.asList(" ", "5", " "));
 
-        assertEquals("5", result1[0]);
-        assertEquals("5", result2[0]);
+        assertEquals("5", result1.get(0));
+        assertEquals("5", result2.get(0));
     }
 
     @Test
     public void testSimpleOperations() throws Exception {
-        String[] result = converter.convertToRPN(new String[] {"5", "+", "2"});
-        assertEquals("5", result[0]);
-        assertEquals("2", result[1]);
-        assertEquals("+", result[2]);
+        List<String> result = converter.convertToRPN(Arrays.asList("5", "+", "2"));
+        assertEquals("5", result.get(0));
+        assertEquals("2", result.get(1));
+        assertEquals("+", result.get(2));
     }
 
     @Test
     public void testMultipleOperations() throws Exception {
-        String[] result1 = converter.convertToRPN(new String[] {"5", "+", "2", "-", "3"});
-        String[] result2 = converter.convertToRPN(new String[] {"5", "*", "2", "/", "3"});
+        List<String> result1 = converter.convertToRPN(Arrays.asList("5", "+", "2", "-", "3"));
+        List<String> result2 = converter.convertToRPN(Arrays.asList("5", "*", "2", "/", "3"));
 
-        assertEquals("5", result1[0]);
-        assertEquals("2", result1[1]);
-        assertEquals("+", result1[2]);
-        assertEquals("3", result1[3]);
-        assertEquals("-", result1[4]);
+        assertEquals("5", result1.get(0));
+        assertEquals("2", result1.get(1));
+        assertEquals("+", result1.get(2));
+        assertEquals("3", result1.get(3));
+        assertEquals("-", result1.get(4));
 
-        assertEquals("5", result2[0]);
-        assertEquals("2", result2[1]);
-        assertEquals("*", result2[2]);
-        assertEquals("3", result2[3]);
-        assertEquals("/", result2[4]);
+        assertEquals("5", result2.get(0));
+        assertEquals("2", result2.get(1));
+        assertEquals("*", result2.get(2));
+        assertEquals("3", result2.get(3));
+        assertEquals("/", result2.get(4));
     }
 
     @Test
     public void testCombinationOfOperators() throws Exception {
-        String[] result = converter.convertToRPN(new String[] {"5", "+", "2", "*", "3"});
-        assertEquals("5", result[0]);
-        assertEquals("2", result[1]);
-        assertEquals("3", result[2]);
-        assertEquals("*", result[3]);
-        assertEquals("+", result[4]);
+        List<String> result = converter.convertToRPN(Arrays.asList("5", "+", "2", "*", "3"));
+        assertEquals("5", result.get(0));
+        assertEquals("2", result.get(1));
+        assertEquals("3", result.get(2));
+        assertEquals("*", result.get(3));
+        assertEquals("+", result.get(4));
     }
 
     @Test
     public void testWithMultipleParentheses() throws Exception {
-        String[] result = converter.convertToRPN(new String[] {"(", "2", "+", "1", ")", "(", "4", "+", "1", ")"});
-        assertEquals("2", result[0]);
-        assertEquals("1", result[1]);
-        assertEquals("+", result[2]);
-        assertEquals("4", result[3]);
-        assertEquals("1", result[4]);
-        assertEquals("+", result[5]);
-        assertEquals("*", result[6]);
+        List<String> result = converter.convertToRPN(Arrays.asList("(", "2", "+", "1", ")", "(", "4", "+", "1", ")"));
+        assertEquals("2", result.get(0));
+        assertEquals("1", result.get(1));
+        assertEquals("+", result.get(2));
+        assertEquals("4", result.get(3));
+        assertEquals("1", result.get(4));
+        assertEquals("+", result.get(5));
+        assertEquals("*", result.get(6));
     }
 
     @Test(expected = MissingParenthesisException.class)
     public void testMissingClosingParenthesis() throws Exception {
-        converter.convertToRPN(new String[]{"(", "2", "+", "1", ")", "(", "4", "+", "1"});
+        converter.convertToRPN(Arrays.asList("(", "2", "+", "1", ")", "(", "4", "+", "1"));
     }
 
     @Test(expected = MissingParenthesisException.class)
     public void testMissingOpeningParenthesis() throws Exception {
-        converter.convertToRPN(new String[]{"(", "2", "+", "1", ")", "4", "+", "1", ")"});
+        converter.convertToRPN(Arrays.asList("(", "2", "+", "1", ")", "4", "+", "1", ")"));
     }
 
     @Test(expected = MissingTokenException.class)
     public void testSpaceBetweenNumbers() throws Exception {
-        converter.convertToRPN(new String[] {"9", "8"});
+        converter.convertToRPN(Arrays.asList("9", "8"));
     }
 
     @Test(expected = IllegalTokenException.class)
     public void testSpaceBetweenNumbersInToken() throws Exception {
-        converter.convertToRPN(new String[] {"9 8", "+", "8"});
+        converter.convertToRPN(Arrays.asList("9 8", "+", "8"));
     }
 
     @Test
     public void testMissingMultiplicationSigns() throws Exception {
-        String[] result1 = converter.convertToRPN(new String[] {"9", "(", "8", ")"});
-        String[] result2 = converter.convertToRPN(new String[] {"(", "9", ")", "8"});
+        List<String> result1 = converter.convertToRPN(Arrays.asList("9", "(", "8", ")"));
+        List<String> result2 = converter.convertToRPN(Arrays.asList("(", "9", ")", "8"));
 
-        assertEquals("9", result1[0]);
-        assertEquals("8", result1[1]);
-        assertEquals("*", result1[2]);
+        assertEquals("9", result1.get(0));
+        assertEquals("8", result1.get(1));
+        assertEquals("*", result1.get(2));
 
-        assertEquals("9", result2[0]);
-        assertEquals("8", result2[1]);
-        assertEquals("*", result2[2]);
+        assertEquals("9", result2.get(0));
+        assertEquals("8", result2.get(1));
+        assertEquals("*", result2.get(2));
     }
 
     @Test(expected = IllegalTokenException.class)
     public void testIllegalChars() throws Exception {
-        converter.convertToRPN(new String[] {"9", "*", "a"});
+        converter.convertToRPN(Arrays.asList("9", "*", "a"));
     }
 
     @Test
     public void testWikiExample() throws Exception {
-        String[] strings = converter.convertToRPN(new String[]{"3", "+", "4", "*", "2", "/", "(", "1", "-", "5", ")"});
+        List<String> strings = converter.convertToRPN(Arrays.asList("3", "+", "4", "*", "2", "/", "(", "1", "-", "5", ")"));
         // 3 4 2 * 1 5 - / +
     }
 }
