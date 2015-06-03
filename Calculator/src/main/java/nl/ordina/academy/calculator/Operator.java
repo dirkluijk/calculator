@@ -42,10 +42,6 @@ public enum Operator {
         return getOperator(token) != null;
     }
 
-    public static boolean isParenthesis(String token) {
-        return isLeftParenthesis(token) || isRightParenthesis(token);
-    }
-
     public static boolean isRightParenthesis(String token) {
         return RIGHT_PARENTHESIS.getCharacter().equals(token);
     }
